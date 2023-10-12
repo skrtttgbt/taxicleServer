@@ -7,9 +7,13 @@ import cors from "cors"
 
 const app = express ()
 app.use(cors({
-    origin: ['https://taxicle-app.vercel.app','http://localhost:3001' ] , // Specify the allowed origin (your frontend app)
+    origin: ['https://taxicle-app.vercel.app','http://localhost:3000' ] , // Specify the allowed origin (your frontend app)
     methods: ["POST", "GET"],
     credentials: true, 
+    sameSite : "none",
+    secure: true,
+    domain: "https://taxicle-app.vercel.app/",
+    httpOnly: false,
 }))
 app.use(express.json())
 app.use(cookieParser())
@@ -87,7 +91,6 @@ app.post('/admin-login',(req, res)=> {
 app.get('/admin-logout', (req, res) => { 
 
     delete req.session.admin
-    
     return res.json({Status:"Success"})
 })
 
