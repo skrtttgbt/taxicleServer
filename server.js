@@ -116,7 +116,7 @@ app.get('/',(req, res)=> {
         })
     })
     }else{
-        console.log("Sad")
+        return res.json({valid: false})
     }
 })
 
