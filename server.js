@@ -71,6 +71,7 @@ app.post('/admin-login',(req, res)=> {
         }
         if(data.length > 0 ){
             req.session.admin = data[0].adminEmail;
+
             return res.json({Login:true, user: req.session.user});
         }else{
             const sqlCheckEmail ="SELECT * From users WHERE `adminUser` = ? OR `adminEmail` = ?";
@@ -200,6 +201,7 @@ app.post('/login', (req, res) => {
         }
         if(data.length > 0 ){
             req.session.user = data[0].Email;
+            console.log( req.session.user )
             return res.json({Login:true, user: req.session.user});
         }else{
             const sqlCheckEmail ="SELECT * From users WHERE `Email` = ?";
