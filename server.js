@@ -10,10 +10,6 @@ app.use(cors({
     origin: ['https://taxicle-app.vercel.app','http://localhost:3000' ] , // Specify the allowed origin (your frontend app)
     methods: ["POST", "GET"],
     credentials: true, 
-    sameSite : "none",
-    secure: true,
-    domain: "https://taxicle-app.vercel.app/",
-    httpOnly: false,
 }))
 app.use(express.json())
 app.use(cookieParser())
@@ -25,8 +21,11 @@ app.use(session({
     secret: 'secret',
     resave: false,
     saveUninitialized:false,
+    sameSite : "none",
+    domain: "https://taxicle-app.vercel.app/",
+    httpOnly: false,
     cookie: {
-        secure:false,
+        secure: true,
         maxAge:1000*60*60*24
     }
 }));
