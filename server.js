@@ -18,7 +18,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 app.use(session({
-    store: new RedisStore({ client: redisClient}),
     name: 'qid',
     secret: 'superdupersecret',
     resave: false,
