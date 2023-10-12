@@ -22,7 +22,6 @@ app.use(session({
 	secret:'secret',
 	resave: false,
 	saveUninitialized: false,
-	httpOnly: true,
 	unset: 'destroy',
 	store: sessionStore,
 	rolling: true,
@@ -106,6 +105,7 @@ app.post('/admin-update',(req, res) =>{
 })
 
 app.get('/',(req, res)=> {
+    console.log(req.session.user)
     if(req.session.user) {
     const fareSql = "Select * from fare"
     db.query(fareSql,(err,faredata) =>{
