@@ -21,7 +21,7 @@ app.use(session({
     name: 'qid',
     secret: 'superdupersecret',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         httpOnly: false,
         secure: true,
