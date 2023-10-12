@@ -7,7 +7,7 @@ import cors from "cors"
 
 const app = express ()
 app.use(cors({
-    origin: ['http://localhost:3000','http://localhost:3001' ] , // Specify the allowed origin (your frontend app)
+    origin: ['https://taxicle-app.vercel.app','http://localhost:3001' ] , // Specify the allowed origin (your frontend app)
     methods: ["POST", "GET"],
     credentials: true, 
 }))
