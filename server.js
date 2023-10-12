@@ -18,10 +18,17 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
+    name:'user',
+	secret:'secret',
+	resave: false,
+	saveUninitialized: false,
+	httpOnly: true,
+	unset: 'destroy',
+	store: sessionStore,
+	rolling: true,
+	cookie: {
+	  maxAge: 1000 * 60  * 60 * 24 * 30
+	}
   }))
 
 const db = mysql.createConnection({
