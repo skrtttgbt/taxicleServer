@@ -10,10 +10,6 @@ app.use(cors({
     origin: ['https://taxicle-app.vercel.app','http://localhost:3000' ] , // Specify the allowed origin (your frontend app)
     methods: ["POST", "GET"],
     credentials: true, 
-    sameSite : "none",
-    secure: true,
-    domain: "https://taxicle-app.vercel.app/",
-    httpOnly: false,
 }))
 app.use(express.json())
 app.use(cookieParser())
@@ -22,12 +18,15 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 app.use(session({
-    secret: 'secret',
+    store: new RedisStore({ client: redisClient}),
+    name: 'qid',
+    secret: 'superdupersecret',
     resave: false,
-    saveUninitialized:false,
+    saveUninitialized: true,
     cookie: {
-        secure:false,
-        maxAge:1000*60*60*24
+        httpOnly: false,
+        secure: true,
+        maxAge: 1000 * 60 * 60 * 24 * 365
     }
 }));
 
