@@ -18,15 +18,11 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 app.use(session({
-    name: 'qid',
-    secret: 'superdupersecret',
+    secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: true,
-        maxAge: 1000 * 60 * 60 * 24 * 365
-    }
-}));
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }))
 
 const db = mysql.createConnection({
     host: "bi49k4q5htgxhwitf92n-mysql.services.clever-cloud.com",
