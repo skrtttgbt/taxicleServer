@@ -7,7 +7,7 @@ import cors from "cors"
 
 const app = express ()
 app.use(cors({
-    origin: ['https://taxicle-app.vercel.app','http://localhost:3000' ] , // Specify the allowed origin (your frontend app)
+    origin: ['https://taxicle-app.vercel.app'] , // Specify the allowed origin (your frontend app)
     methods: ["POST", "GET"],
     credentials: true, 
 }))
@@ -23,7 +23,6 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        httpOnly: true,
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 365
     }
