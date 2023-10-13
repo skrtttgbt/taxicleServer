@@ -7,7 +7,7 @@ import cors from "cors"
 
 const app = express ()
 app.use(cors({
-    origin: ['https://taxicle-app.vercel.app'] , // Specify the allowed origin (your frontend app)
+    origin: ['https://taxicle-app-git-main-skrtttgbts-projects.vercel.app/'] , // Specify the allowed origin (your frontend app)
     methods: ["POST", "GET"],
     credentials: true, 
 }))
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 app.use(cookieParser());
-var MemoryStore =session.MemoryStore;
+var MemoryStore = session.MemoryStore;
 app.use(session({
     name : 'app.sid',
     secret: "1234567890QWERTY",
