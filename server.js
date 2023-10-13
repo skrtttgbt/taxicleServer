@@ -12,17 +12,25 @@ app.use(cors({
     credentials: true, 
 }))
 app.use(express.json())
-app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: true
 }))
+app.use(cookieParser());
 app.use(session({
-    name:'user',
-	secret:'secret',
-	resave: false,
-	saveUninitialized: false,
-  }))
+    name: 'user',
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        domain: 'https://taxicle-app.vercel.app',
+        path: '/',
+    },
+}));
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
 const db = mysql.createConnection({
     host: "bi49k4q5htgxhwitf92n-mysql.services.clever-cloud.com",
@@ -30,6 +38,7 @@ const db = mysql.createConnection({
     password: "yf0DYq6eOC8e6nXffzfK",
     database: "bi49k4q5htgxhwitf92n"
 })
+
 db.connect(function(err) {  
     if (err) throw err;  
     console.log("Connected!");  
