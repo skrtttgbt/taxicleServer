@@ -12,10 +12,6 @@ app.use(cors({
     credentials: true, 
 }))
 app.use(express.json())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({
-    extended: true
-}))
 app.use(cookieParser());
 var MemoryStore = session.MemoryStore;
 app.use(session({
@@ -25,6 +21,11 @@ app.use(session({
     store: new MemoryStore(),
     saveUninitialized: true
 }));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
+
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
