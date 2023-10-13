@@ -22,10 +22,6 @@ app.use(session({
 	secret:'secret',
 	resave: false,
 	saveUninitialized: false,
-	cookie: {
-      secure:true,
-	  maxAge: 1000 * 60  * 60 * 24 * 30
-	}
   }))
 
 const db = mysql.createConnection({
