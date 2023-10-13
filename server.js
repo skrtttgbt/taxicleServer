@@ -100,7 +100,6 @@ app.get('/admin-logout', (req, res) => {
 
 app.post('/admin-update',(req, res) =>{
     const sql = "UPDATE fare SET `MinimumFare`= ?, `Discount`= ?, `Exceeding` = ?";
-    console.log(req.body.MinimumFare, req.body.Discount, req.body.Exceeding)
 
     db.query(sql,[req.body.MinimumFare, req.body.Discount, req.body.Exceeding],(err,data) =>{ 
         if(err)  return res.json("error") 
@@ -109,7 +108,6 @@ app.post('/admin-update',(req, res) =>{
 })
 
 app.get('/',(req, res)=> {
-    console.log(req.session.user)
     if(req.session.user) {
     const fareSql = "Select * from fare"
     db.query(fareSql,(err,faredata) =>{
@@ -205,7 +203,6 @@ app.post('/login', (req, res) => {
         }
         if(data.length > 0 ){
             req.session.user = data[0].Email;
-            console.log( req.session.user )
             return res.json({Login:true, user: req.session.user});
         }else{
             const sqlCheckEmail ="SELECT * From users WHERE `Email` = ?";
