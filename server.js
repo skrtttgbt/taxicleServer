@@ -1,4 +1,4 @@
-import session from "cookie-session"
+import session from "express-session"
 import cookieParser from "cookie-parser"
 import bodyParser from "body-parser"
 import express from "express"
@@ -14,15 +14,18 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser());
 app.use(bodyParser.json())
+
 app.use(session({
     name : 'app.sid',
     secret: "1234567890QWERTY",
     resave: false,
+    proxy: true,
     saveUninitialized: false,
     cookie:
     {
-        secure:false,
-        maxAge:1000 * 60 * 60 * 24
+        secure:true,
+        maxAge:1000 * 60 * 60 * 24,
+        sameSite: 'none' 
     }
 }));
 const db = mysql.createConnection({
