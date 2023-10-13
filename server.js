@@ -17,16 +17,15 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 app.use(cookieParser());
+var MemoryStore =session.MemoryStore;
 app.use(session({
-    name: 'user',
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        domain: 'https://taxicle-app.vercel.app',
-        path: '/',
-    },
+    name : 'app.sid',
+    secret: "1234567890QWERTY",
+    resave: true,
+    store: new MemoryStore(),
+    saveUninitialized: true
 }));
+
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
