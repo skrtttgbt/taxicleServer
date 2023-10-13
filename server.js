@@ -14,8 +14,6 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser());
 app.use(bodyParser.json())
-
-
 app.use(session({
     name : 'app.sid',
     secret: "1234567890QWERTY",
@@ -33,6 +31,7 @@ const db = mysql.createConnection({
     password: "yf0DYq6eOC8e6nXffzfK",
     database: "bi49k4q5htgxhwitf92n"
 })
+
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
