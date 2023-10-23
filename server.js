@@ -274,9 +274,9 @@ app.post('/reset-password/:iv/:password', (req, res) => {
     })
 })
 
-app.post('/mapstyle/:mapstyle/:user', (req, res) => {
+app.post('/mapstyle/:mapstyle', (req, res) => {
     const sql ="SELECT * FROM style WHERE `userEmail` = ?";
-    const userEmail = req.params.user;
+    const userEmail = req.session.user;
     db.query(sql,[userEmail], (err, Resdata) => {
         if(err) {
             return res.json("error")
