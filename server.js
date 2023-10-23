@@ -107,6 +107,13 @@ app.post('/admin-update',(req, res) =>{
     })
 })
 
+app.post('/delete-user/:userEmail',(req, res) =>{
+    const sql = "DELETE FROM users WHERE Email = ?;";
+    db.query(sql,[req.params.userEmail],(err,data) =>{ 
+        if(err)  return res.json("error") 
+        return res.json("Success")
+    })
+})
 app.get('/',(req, res)=> {
     if(req.session.user) {
     const fareSql = "Select * from fare"
