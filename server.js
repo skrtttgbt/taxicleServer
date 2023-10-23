@@ -290,8 +290,14 @@ app.post('/mapstyle/:mapstyle/:user', (req, res) => {
                 return res.json({style: Resdata[0].mapStyle});
             })
         }else{
+            const insert = "INSERT INTO style (`userEmail`,`mapStyle`) VALUES (?)";
+            db.query(insert,[userEmail,req.params.mapstyle], (err, Resdata) => {
+                if(err) {
+                    return res.json("error")
+                }
             return res.json("walang record bata"); 
-        }
+        })
+    }
     })
 })
 
