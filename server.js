@@ -275,7 +275,7 @@ app.post('/reset-password/:iv/:password', (req, res) => {
 })
 
 app.post('/changemap', (req, res) => {
-    const sql ="SELECT * FROM style WHERE `userEmail` = ?";
+    const sql ="SELECT * FROM mapstyle WHERE `userEmail` = ?";
     const userEmail = req.session.user;
     db.query(sql,[userEmail], (err, Resdata) => {
         if(err) {
@@ -283,7 +283,7 @@ app.post('/changemap', (req, res) => {
             return res.json("error")
         }
         if(Resdata.length > 0 ){
-            const updateRec = "UPDATE style SET `mapStyle`= ? WHERE `userEmail` = ?";
+            const updateRec = "UPDATE mapstyle SET `mapStyle`= ? WHERE `userEmail` = ?";
             db.query(updateRec,[req.body.mapstyle , userEmail], (err, data) => {
                 if(err) {
                     return res.json("Error")
@@ -291,7 +291,7 @@ app.post('/changemap', (req, res) => {
                 return res.json({style: Resdata[0].mapStyle});
             })
         }else{
-            const insert = "INSERT INTO style (`userEmail`,`mapStyle`) VALUES (?)";
+            const insert = "INSERT INTO mapstyle (`userEmail`,`mapStyle`) VALUES (?)";
             db.query(insert,[userEmail,req.body.mapstyle], (err, Resdata) => {
                 if(err) {
                     return res.json("error")
@@ -303,7 +303,7 @@ app.post('/changemap', (req, res) => {
 })
 
 app.get('/mapstyle', (req, res) => {
-    const sql ="SELECT * FROM style WHERE `userEmail` = ?";
+    const sql ="SELECT * FROM mapstyle WHERE `userEmail` = ?";
     const userEmail = req.session.user;
     db.query(sql,[userEmail], (err, data) => {
         if(err) {
