@@ -292,7 +292,7 @@ app.post('/changemap', (req, res) => {
             })
         }else{
             const insert = "INSERT INTO mapstyle (`userEmail`,`mapStyle`) VALUES (?)";
-            db.query(insert,[userEmail,req.body.mapstyle], (err, Resdata) => {
+            db.query(insert,[userEmail , req.body.mapstyle], (err, Resdata) => {
                 if(err) {
                     return res.json("error")
                 }
