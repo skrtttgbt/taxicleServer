@@ -29,10 +29,10 @@ app.use(session({
     }
 }));
 const db = mysql.createConnection({
-    host: "bi49k4q5htgxhwitf92n-mysql.services.clever-cloud.com",
+    host: "baxywvs3yvftake5nvay-mysql.services.clever-cloud.com",
     user: "uqlt5eesvbqfue34",
     password: "yf0DYq6eOC8e6nXffzfK",
-    database: "bi49k4q5htgxhwitf92n"
+    database: "baxywvs3yvftake5nvay"
 })
 
 app.use((err, req, res, next) => {
@@ -364,6 +364,6 @@ app.get('/fetchdata/:user', (req, res) => {
     })
 })
 
-app.listen(3306,  ()=> {
+app.listen(20074,  ()=> {
     console.log("Listening")
 })
