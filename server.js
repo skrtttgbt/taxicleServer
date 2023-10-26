@@ -31,19 +31,20 @@ app.use(session({
 const db = mysql.createConnection({
     host: "baxywvs3yvftake5nvay-mysql.services.clever-cloud.com",
     user: "uqlt5eesvbqfue34",
-    password: "yf0DYq6eOC8e6nXffzfK",
+    password: "Oz57a0EePBp4ec38Gwhc",
     database: "baxywvs3yvftake5nvay"
 })
+db.connect(function(err) {  
+    if (err) throw err;  
+    console.log("Connected!");  
+  });  
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
 
-db.connect(function(err) {  
-    if (err) throw err;  
-    console.log("Connected!");  
-  });  
+
 
   app.get('/admin-user',(req, res)=> {
    const sql = "Select * from users";
