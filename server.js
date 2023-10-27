@@ -4,6 +4,7 @@ import bodyParser from "body-parser"
 import express from "express"
 import mysql from "mysql"
 import cors from "cors"
+import mysql2 from 'mysql2'
 
 const app = express ()
 app.use(cors({
@@ -28,16 +29,17 @@ app.use(session({
         sameSite: 'none' 
     }
 }));
-const db = mysql.createConnection({
+const db = mysql2.createConnection({
     host: "baxywvs3yvftake5nvay-mysql.services.clever-cloud.com",
+    port:"20074",
     user: "uqlt5eesvbqfue34",
     password: "Oz57a0EePBp4ec38Gwhc",
-    database: "baxywvs3yvftake5nvay"
+    database: "baxywvs3yvftake5nvay",
 })
-db.connect(function(err) {  
-    if (err) throw err;  
-    console.log("Connected!");  
-  });  
+db.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+  });
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
