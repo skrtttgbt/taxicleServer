@@ -48,7 +48,7 @@ app.use((err, req, res, next) => {
 
 
 
-  app.get('/admin-user',(req, res)=> {
+app.get('/admin-user',(req, res)=> {
    const sql = "Select * from users";
    db.query(sql,(err,data) =>{
     if(err)  return res.json("error")
@@ -80,7 +80,7 @@ app.post('/admin-login',(req, res)=> {
 
             return res.json({Login:true, user: req.session.user});
         }else{
-            const sqlCheckEmail ="SELECT * From users WHERE `adminUser` = ? OR `adminEmail` = ?";
+            const sqlCheckEmail ="SELECT * From admin WHERE `adminUser` = ? OR `adminEmail` = ?";
             db.query(sqlCheckEmail,[req.body.admin, req.body.admin ], (err, data) => {
                 if(err) {
                     return res.json({message:"error"})
