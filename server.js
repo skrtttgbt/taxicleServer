@@ -190,7 +190,7 @@ app.post('/register', (req, res) => {
             return res.json("error")
         }
         if(data.length > 0 ){
-            return res.json("This Email/Cellphne Number has been used!");
+            return res.json("This Email/Cellphone Number has been used!");
         }else{
             const sql ="INSERT INTO users (`FirstName`,`LastName`,`PhoneNumber`,`Email`,`Password`,`UserType`,`PlateNum`,`LicenseNum`) VALUES (?)";
 
@@ -233,7 +233,6 @@ app.post('/login', (req, res) => {
 app.get('/logout', (req, res) => { 
 
     delete req.session.user
-    
     return res.json({Status:"Success"})
 })
 
