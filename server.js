@@ -23,12 +23,12 @@ app.use(session({
     resave: false,
     proxy: true,
     saveUninitialized: false,
-    cookie:
-    {
-        secure:true,
-        maxAge:1000 * 60 * 60 * 24,
-        sameSite: 'none' 
-    }
+    cookie: {
+        secure: true, // Make sure to set this to true only in production when using HTTPS
+        httpOnly: true, // Enhances security by preventing client-side access to the cookie
+        maxAge: 1000 * 60 * 60 * 24,
+        sameSite: 'None', // Set to 'None' for cross-site cookies
+      },
 }));
 const db = mysql2.createConnection({
     host: "baxywvs3yvftake5nvay-mysql.services.clever-cloud.com",
