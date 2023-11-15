@@ -27,6 +27,7 @@ app.use(session({
     {
         secure:true,
         maxAge:1000 * 60 * 60 * 24,
+        sameSite: 'Lax' 
     }
 }));
 const db = mysql2.createConnection({
