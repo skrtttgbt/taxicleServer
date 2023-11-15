@@ -11,6 +11,7 @@ app.use(cors({
     origin: ['https://taxicle-app.vercel.app','https://taxicle-admin.vercel.app'] , // Specify the allowed origin (your frontend app)
     methods: ["POST", "GET"],
     credentials: true, 
+    optionsSuccessStatus: 204,
 }))
 app.use(express.json())
 app.use(cookieParser());
@@ -26,7 +27,6 @@ app.use(session({
     {
         secure:true,
         maxAge:1000 * 60 * 60 * 24,
-        sameSite: 'none' 
     }
 }));
 const db = mysql2.createConnection({
