@@ -14,21 +14,18 @@ app.use(cors({
     optionsSuccessStatus: 204,
 }))
 app.use(express.json())
-app.use(cookieParser());
 app.use(bodyParser.json())
-
+app.set('trust proxy', 1) 
 app.use(session({
     name : 'app.sid',
     secret: "1234567890QWERTY",
     resave: false,
-    proxy: true,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
         secure: true, // Make sure to set this to true only in production when using HTTPS
         httpOnly: true, // Enhances security by preventing client-side access to the cookie
         maxAge: 1000 * 60 * 60 * 24,
         sameSite: 'None', // Set to 'None' for cross-site cookies
-        Domain: 'taxicle-app.vercel.app'
       },
 }));
 const db = mysql2.createConnection({
