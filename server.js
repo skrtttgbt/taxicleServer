@@ -14,6 +14,7 @@ app.use(cors({
     optionsSuccessStatus: 204,
 }))
 app.use(express.json())
+app.use(cookieParser());
 app.use(bodyParser.json())
 app.set('trust proxy', 1) 
 app.use(session({
