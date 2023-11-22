@@ -1,8 +1,6 @@
 import session from "express-session"
-import cookieParser from "cookie-parser"
 import bodyParser from "body-parser"
 import express from "express"
-import mysql from "mysql"
 import cors from "cors"
 import mysql2 from 'mysql2'
 
@@ -46,6 +44,18 @@ app.use((err, req, res, next) => {
 });
 
 
+app.get('/fetchdata/:user', (req, res) => {
+    const sql ="SELECT * FROM users WHERE `Email` = ?";
+    const userEmail = req.params.user;
+    db.query(sql,[userEmail], (err, data) => {
+        if(err) {
+            return res.json("error")
+        }
+        if(data.length > 0 ){
+            return res.json({FirstName: data[0].FirstName, LastName: data[0].LastName, PhoneNumber: data[0].PhoneNumber, password: data[0].Password, Result: "Success"})
+        }
+    })
+})
 
 app.get('/admin-user',(req, res)=> {
    const sql = "Select * from users";
@@ -309,18 +319,6 @@ app.post('/userupdate/:user', (req, res) => {
 })
 
 
-app.get('/fetchdata/:user', (req, res) => {
-    const sql ="SELECT * FROM users WHERE `Email` = ?";
-    const userEmail = req.params.user;
-    db.query(sql,[userEmail], (err, data) => {
-        if(err) {
-            return res.json("error")
-        }
-        if(data.length > 0 ){
-            return res.json({FirstName: data[0].FirstName, LastName: data[0].LastName, PhoneNumber: data[0].PhoneNumber, password: data[0].Password, Result: "Success"})
-        }
-    })
-})
 
 app.listen(20074,  ()=> {
     console.log("Listening")
