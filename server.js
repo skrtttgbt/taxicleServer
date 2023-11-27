@@ -43,7 +43,6 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
-
 app.get('/fetchdata/:user', (req, res) => {
     const sql ="SELECT * FROM users WHERE `Email` = ?";
     const userEmail = req.params.user;
