@@ -180,9 +180,9 @@ app.get('/',(req, res)=> {
     const fareSql = "Select * from fare"
     db.query(fareSql,(err,faredata) =>{
     if(err)  return res.json("error")   
-    const sql = "Select UserType from users WHERE `Email` = ?"
+    const sql = "Select UserType, imgPassengerID from users WHERE `Email` = ?"
         db.query(sql,[req.session.user],(err,data) =>{
-        return res.json({ fare:faredata,data: data[0].UserType, valid: true, user: req.session.user})
+        return res.json({ fare:faredata,data: data[0], valid: true, user: req.session.user})
         })
     })
     }else{
