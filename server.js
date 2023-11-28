@@ -186,10 +186,10 @@ app.post('/report', (req, res) =>{
         req.body.reportDetails,
         req.body.IncidentDate
     ]  
-    const sql ="INSERT INTO travelhistory (`BodyNumber`,`Email`,`mobile`,`From`,`To`,`ReportType`,`Complain`,`IncidentDate`) VALUES (?)";
+    const sql ="INSERT INTO report (`BodyNumber`,`Email`,`mobile`,`From`,`To`,`ReportType`,`Complain`,`IncidentDate`) VALUES (?)";
     db.query(sql,[values], (err, data) => {
         if(err) {
-            return res.json("eerror")
+            return res.json(err)
         }
         return res.json({Status:"Success"});
     })
