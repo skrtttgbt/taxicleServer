@@ -174,6 +174,27 @@ app.post('/travel', (req, res) =>{
         return res.json({Status:"Success"});
     })
 })
+
+app.post('/report', (req, res) =>{
+    const values = [
+        req.body.bodyNumber,
+        req.session.user,
+        req.session.mobile,
+        req.body.from,
+        req.body.to,
+        req.body.reportType,
+        req.body.reportDetails,
+        req.body.IncidentDate
+    ]  
+    const sql ="INSERT INTO travelhistory (`BodyNumber`,`Email`,`mobile`,`From`,`To`,`ReportType`,`Complain`,`IncidentDate`) VALUES (?)";
+    db.query(sql,[values], (err, data) => {
+        if(err) {
+            return res.json("eerror")
+        }
+        return res.json({Status:"Success"});
+    })
+})
+
     app.get('/history', (req, res) => {
     const sqlTraverse = "Select * from travelhistory WHERE `Email` = ?"
     db.query(sqlTraverse,[req.session.user], (err, Traveldata) => {
@@ -221,6 +242,7 @@ app.post('/login', (req, res) => {
         }
         if(data.length > 0 ){
             req.session.user = data[0].Email;
+            req.session.mobile = data[0].PhoneNumber
             return res.json({Login:true, user: req.session.user});
         }else{
             const sqlCheckEmail ="SELECT * From users WHERE `Email` = ?";
