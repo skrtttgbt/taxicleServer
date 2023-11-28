@@ -3,8 +3,19 @@ import bodyParser from "body-parser"
 import express from "express"
 import cors from "cors"
 import mysql2 from 'mysql2'
+import multer from "multer"
 
 const app = express ()
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        return cb(null, './images')
+    },
+    filename: function(req, file, cb){
+        return cb(null, `${Date.now()}_${file.originalname}`)
+    }
+})
+
+const upload = multer({storage})
 app.use(cors({
     origin: ['https://taxicle-app.vercel.app','https://taxicle-admin.vercel.app', 'http://localhost:3000'] , // Specify the allowed origin (your frontend app)
     methods: ["POST", "GET"],
@@ -33,6 +44,7 @@ const db = mysql2.createConnection({
     password: "Oz57a0EePBp4ec38Gwhc",
     database: "baxywvs3yvftake5nvay",
 })
+
 db.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
@@ -202,26 +214,41 @@ app.post('/report', (req, res) =>{
         return res.json( Traveldata);
     })
 })
-app.post('/register', (req, res) => {
+app.post('/register',
+upload.single('imgMTOP'),
+upload.single('imgLicense'),
+upload.single('imgPlateNum'),
+upload.single('imgPassengerID'), (req, res) => {
     const sqlCheck = "SELECT * FROM users WHERE `Email` = ? OR `PhoneNumber` = ?";
     db.query(sqlCheck,[req.body.email, req.body.PhoneNumber], (err, data) => {
+        const imgMTOPFilename = req.file ? req.file.originalname : null;
+        const imgLicenseFilename = req.file ? req.file.originalname : null;
+        const imgPlateNumFilename = req.file ? req.file.originalname : null;
+        const imgPassengerIDFilename = req.file ? req.file.originalname : null;
+
+        // Prepare values for insertion
         const values = [
-            req.body.FirstName,
-            req.body.LastName,
-            req.body.PhoneNumber,
-            req.body.email,
-            req.body.confirmPassword,
-            req.body.UserType,
-            req.body.plateNum,
-            req.body.LicenseNum,
-        ]  
+          req.body.FirstName,
+          req.body.LastName,
+          req.body.PhoneNumber,
+          req.body.email,
+          req.body.confirmPassword,
+          req.body.UserType,
+          req.body.plateNumID,
+          req.body.LicenseNumID,
+          imgMTOPFilename,
+          imgLicenseFilename,
+          imgPlateNumFilename,
+          imgPassengerIDFilename,
+        ];
+
         if(err) {
             return res.json("error")
         }
         if(data.length > 0 ){
             return res.json("This Email/Cellphone Number has been used!");
         }else{
-            const sql ="INSERT INTO users (`FirstName`,`LastName`,`PhoneNumber`,`Email`,`Password`,`UserType`,`PlateNum`,`LicenseNum`) VALUES (?)";
+            const sql = "INSERT INTO users (`FirstName`, `LastName`, `PhoneNumber`, `Email`, `Password`, `UserType`, `PlateNum`, `LicenseNum`, `imgMTOP`, `imgLicense`, `imgPlateNum`, `imgPassengerID`) VALUES (?)";;
 
             db.query(sql,[values], (err, data) => {
                 if(err) {
