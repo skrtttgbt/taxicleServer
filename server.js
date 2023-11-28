@@ -8,14 +8,14 @@ import multer from "multer"
 const app = express ()
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        return cb(null, './images')
+        return cb(null, './images/')
     },
     filename: function(req, file, cb){
         return cb(null, `${Date.now()}_${file.originalname}`)
     }
 })
 
-const upload = multer({storage})
+const upload = multer({storage: storage})
 app.use(cors({
     origin: ['https://taxicle-app.vercel.app','https://taxicle-admin.vercel.app', 'http://localhost:3000'] , // Specify the allowed origin (your frontend app)
     methods: ["POST", "GET"],
@@ -215,9 +215,9 @@ app.post('/report', (req, res) =>{
     })
 })
 app.post('/register',
-upload.single('imgMTOP'),
-upload.single('imgLicense'),
-upload.single('imgPlateNum'),
+// upload.single('imgMTOP'),
+// upload.single('imgLicense'),
+// upload.single('imgPlateNum'),
 upload.single('imgPassengerID'), (req, res) => {
     const sqlCheck = "SELECT * FROM users WHERE `Email` = ? OR `PhoneNumber` = ?";
     db.query(sqlCheck,[req.body.email, req.body.PhoneNumber], (err, data) => {
@@ -248,6 +248,7 @@ upload.single('imgPassengerID'), (req, res) => {
         if(data.length > 0 ){
             return res.json("This Email/Cellphone Number has been used!");
         }else{
+            console.log(values)
             const sql = "INSERT INTO users (`FirstName`, `LastName`, `PhoneNumber`, `Email`, `Password`, `UserType`, `PlateNum`, `LicenseNum`, `imgMTOP`, `imgLicense`, `imgPlateNum`, `imgPassengerID`) VALUES (?)";;
 
             db.query(sql,[values], (err, data) => {
