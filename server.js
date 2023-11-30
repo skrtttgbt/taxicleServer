@@ -210,6 +210,7 @@ app.post('/register',
           req.body.imgPlateNum,
           req.body.imgPassengerID,
         ];
+        const sanitizedValues = values.map(value => (value === null ? 'none' : value));
         if(err) {
             return res.json("error")
         }
@@ -217,7 +218,7 @@ app.post('/register',
             return res.json("This Email/Cellphone Number has been used!");
         }else{
             const sql ="INSERT INTO users (`FirstName`, `LastName`, `PhoneNumber`, `Email`, `Password`, `UserType`, `PlateNum`, `LicenseNum`, `imgMTOP`, `imgLicense`, `imgPlatenum`, `imgPassengerID`) VALUES (?)";            ;
-            db.query(sql,[values], (err, data) => {
+            db.query(sql,[sanitizedValues], (err, data) => {
                 if(err) {
                     return res.json(err)
                 }
