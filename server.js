@@ -221,7 +221,7 @@ app.post('/register',
                 if(err) {
                     return res.json(err)
                 }
-                return res.json(req.body.email);
+                return res.json("Success");
             })
         }       
     })
