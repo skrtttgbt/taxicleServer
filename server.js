@@ -3,20 +3,8 @@ import bodyParser from "body-parser"
 import express from "express"
 import cors from "cors"
 import mysql2 from 'mysql2'
-import multer from "multer"
 
 const app = express ()
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-            return cb(null, './images');
-    },
-    filename: function(req, file, cb){
-            return cb(null, `${Date.now()}_${file.originalname}`);
-
-    }
-});
-
-const upload = multer({storage})
 app.use(cors({
     origin: ['https://taxicle-app.vercel.app','https://taxicle-admin.vercel.app', 'http://localhost:3000'] , // Specify the allowed origin (your frontend app)
     methods: ["POST", "GET"],
@@ -67,55 +55,6 @@ app.get('/fetchdata/:user', (req, res) => {
             return res.json({FirstName: data[0].FirstName, LastName: data[0].LastName, PhoneNumber: data[0].PhoneNumber, password: data[0].Password, Result: "Success"})
         }
     })
-})
-app.post('/driversupload', 
-upload.single('imgMTOP'),
-upload.single('imgLicense'),
-upload.single('imgPlateNum'),
-(req, res) => {
-    const imgMTOPFilename = req.file ? req.file.originalname : null;
-    const imgLicenseFilename = req.file ? req.file.originalname : null;
-    const imgPlateNumFilename = req.file ? req.file.originalname : null;
-    const sql ="UPDATE users SET `imgMTOP` = ?, `imgLicense` = ?,`imgPlateNum` = ? WHERE `Email` = ?";
-    db.query(sql,[imgMTOPFilename,imgLicenseFilename,imgPlateNumFilename, req.body.registeredEmail], (err, data) => {
-        if(err) {
-            return res.json("error")
-        }
-        if(data.length > 0 ){
-
-        }else{
-            return res.json(req.params.iv); 
-        }
-    })
-})
-
-app.post('/passengerupload', 
-upload.single('imgPassengerID'),
-(req, res) => {
-    console.log(req.body)
-    const imgPassengerIDFilename = req.file ? req.file.originalname : null;
-    const sql ="UPDATE users SET `imgPassengerID` = ? WHERE `Email` = ?";
-    db.query(sql,[imgPassengerIDFilename, req.body.registeredEmail], (err, data) => {
-        if(err) {
-            return res.json(err)
-        }
-        if(data.length > 0 ){
-            return res.json("success")
-        }else{
-            return res.json("success")
-        }
-    })
-})
-app.get('/admin-user',(req, res)=> {
-   const sql = "Select * from users";
-   db.query(sql,(err,data) =>{
-    if(err)  return res.json("error")
-    const fareSql = "Select * from fare"
-    db.query(fareSql,(err,faredata) =>{
-    if(err)  return res.json("error")   
-        return res.json({data: data, fare:faredata})
-    })
-   })
 })
 
 app.get('/admin',(req, res)=> {
@@ -266,15 +205,18 @@ app.post('/register',
           req.body.UserType,
           req.body.plateNumID,
           req.body.LicenseNumID,
+          req.body.imgMTOP,
+          req.body.imgLicense,
+          req.body.imgPlateNum,
+          req.body.imgPassengerID,
         ];
-
         if(err) {
             return res.json("error")
         }
         if(data.length > 0 ){
             return res.json("This Email/Cellphone Number has been used!");
         }else{
-            const sql ="INSERT INTO users (`FirstName`, `LastName`, `PhoneNumber`, `Email`, `Password`, `UserType`, `PlateNum`, `LicenseNum`) VALUES (?)";            ;
+            const sql ="INSERT INTO users (`FirstName`, `LastName`, `PhoneNumber`, `Email`, `Password`, `UserType`, `PlateNum`, `LicenseNum`, `imgMTOP`, `imgLicense`, `imgPlatenum`, `imgPassengerID`) VALUES (?)";            ;
             db.query(sql,[values], (err, data) => {
                 if(err) {
                     return res.json(err)
