@@ -64,7 +64,17 @@ app.get('/admin',(req, res)=> {
         return res.json({valid:false})
     }
 })
-
+app.get('/admin-user',(req, res)=> {
+    const sql ="SELECT * From users";
+    db.query(sql, (err, data) => {
+        if(err) {
+            return res.json({message:"No Users"})
+        }
+        if(data.length > 0 ){
+            return res.json(res.data);
+        }
+    })
+})
 
 app.post('/admin-login',(req, res)=> {
     const sql ="SELECT * From admin WHERE (`adminUser` = ? AND `adminPassword` = ?) OR (`adminEmail` = ? AND `adminPassword` = ?)";
