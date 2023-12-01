@@ -71,7 +71,15 @@ app.get('/admin-user',(req, res)=> {
             return res.json({message:"No Users"})
         }
         if(data.length > 0 ){
-            return res.json(res.data);
+            const Faresql ="SELECT * From fare";
+            db.query(sql, (err, faredata) => {
+                if(err) {
+                    return res.json({message:"No Users"})
+                }
+                if(data.length > 0 ){ 
+                return res.json({data: res.data,fare: res.faredata});
+                }
+            })
         }
     })
 })
