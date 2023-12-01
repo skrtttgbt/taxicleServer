@@ -80,7 +80,9 @@ app.post('/admin-login',(req, res)=> {
             const sqlCheckEmail ="SELECT * From admin WHERE `adminUser` = ? OR `adminEmail` = ?";
             db.query(sqlCheckEmail,[req.body.admin, req.body.admin ], (err, data) => {
                 if(err) {
+                    console.log('error')
                     return res.json({message:"error"})
+
                 }
                 if(data.length > 0 ){
                     return res.json({message:"Only Authorized Person Can Enter"});
