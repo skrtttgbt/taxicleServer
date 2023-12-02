@@ -56,33 +56,25 @@ app.get('/fetchdata/:user', (req, res) => {
 })
 
 app.get('/admin',(req, res)=> {
-    console.log(req.session.admin)
     if(req.session.admin) {
-        console.log(req.session.admin)
         return res.json({valid: true, user: req.session.admin})
     }else{
         return res.json({valid:false})
     }
 })
+
+
 app.get('/admin-user',(req, res)=> {
-    const sql ="SELECT * From users";
-    db.query(sql, (err, data) => {
-        if(err) {
-            return res.json({message:"No Users"})
-        }
-        if(data.length > 0 ){
-            const Faresql ="SELECT * From fare";
-            db.query(Faresql, (err, faredata) => {
-                if(err) {
-                    return res.json({message:"No Users"})
-                }
-                if(data.length > 0 ){ 
-                    return res.json({data: res.data ,fare: res.faredata});
-                }
-            })
-        }
+    const sql = "Select * from users";
+    db.query(sql,(err,data) =>{
+     if(err)  return res.json("error")
+     const fareSql = "Select * from fare"
+     db.query(fareSql,(err,faredata) =>{
+     if(err)  return res.json("error")   
+         return res.json({data: data, fare:faredata})
+     })
     })
-})
+ })
 
 app.post('/admin-login',(req, res)=> {
     const sql ="SELECT * From admin WHERE (`adminUser` = ? AND `adminPassword` = ?) OR (`adminEmail` = ? AND `adminPassword` = ?)";
