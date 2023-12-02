@@ -25,5 +25,8 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.6.2",
     "nodemon": "^3.0.1"
+  },
+  "devDependencies": {
+    "grunt-cli": "^1.4.3"
   }
 }
