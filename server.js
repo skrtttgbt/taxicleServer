@@ -1,5 +1,4 @@
 import session from "express-session"
-import bodyParser from "body-parser"
 import express from "express"
 import cors from "cors"
 import mysql2 from 'mysql2'
@@ -12,7 +11,6 @@ app.use(cors({
     optionsSuccessStatus: 204,
 }))
 app.use(express.json())
-app.use(bodyParser.json())
 app.set('trust proxy', 1) 
 app.use(session({
     name : 'app.sid',
@@ -58,7 +56,9 @@ app.get('/fetchdata/:user', (req, res) => {
 })
 
 app.get('/admin',(req, res)=> {
+    console.log(req.session.admin)
     if(req.session.admin) {
+        console.log(req.session.admin)
         return res.json({valid: true, user: req.session.admin})
     }else{
         return res.json({valid:false})
@@ -77,7 +77,7 @@ app.get('/admin-user',(req, res)=> {
                     return res.json({message:"No Users"})
                 }
                 if(data.length > 0 ){ 
-                    return res.json({data: res.data,fare: res.faredata});
+                    return res.json({data: res.data ,fare: res.faredata});
                 }
             })
         }
@@ -86,21 +86,23 @@ app.get('/admin-user',(req, res)=> {
 
 app.post('/admin-login',(req, res)=> {
     const sql ="SELECT * From admin WHERE (`adminUser` = ? AND `adminPassword` = ?) OR (`adminEmail` = ? AND `adminPassword` = ?)";
+    console.log('titi')
     db.query(sql,[req.body.admin, req.body.password, req.body.admin, req.body.password], (err, data) => {
         if(err) {
             return res.json({message:"error"})
         }
         if(data.length > 0 ){
+            console.log('Login')
             req.session.admin = data[0].adminEmail;
-
-            return res.json({Login:true, user: req.session.user});
+            console.log({Login:true, user: req.session.admin})
+            console.log(req.session.admin)
+            return res.json({Login:true, user: req.session.admin});
         }else{
             const sqlCheckEmail ="SELECT * From admin WHERE `adminUser` = ? OR `adminEmail` = ?";
             db.query(sqlCheckEmail,[req.body.admin, req.body.admin ], (err, data) => {
                 if(err) {
                     console.log('error')
                     return res.json({message:"error"})
-
                 }
                 if(data.length > 0 ){
                     return res.json({message:"Only Authorized Person Can Enter"});
@@ -111,7 +113,6 @@ app.post('/admin-login',(req, res)=> {
         }
     })
 })
-
 app.get('/admin-logout', (req, res) => { 
 
     delete req.session.admin
