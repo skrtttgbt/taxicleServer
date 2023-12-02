@@ -347,8 +347,8 @@ app.post('/userupdate/:user', (req, res) => {
     })
 })
 
+const PORT = process.env.PORT || 3000; // Use port 3000 if environment variable is not set
 
-
-app.listen(20074,  ()=> {
-    console.log("Listening")
-})
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
