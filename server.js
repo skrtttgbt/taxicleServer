@@ -83,6 +83,14 @@ app.get('/admin-user',(req, res)=> {
          return res.json({report: data})
      })
  })
+ app.post('/admin-approve',(req, res)=> {
+    const sql = "UPDATE users set Verified = 1 WHERE Email = ?";
+    db.query(sql,[req.body.email],(err,data) =>{
+     if(err)  return res.json("error")
+         return res.json({message: 'success'})
+     })
+ })
+
 
 app.post('/admin-login',(req, res)=> {
     const sql ="SELECT * From admin WHERE (`adminUser` = ? AND `adminPassword` = ?) OR (`adminEmail` = ? AND `adminPassword` = ?)";
