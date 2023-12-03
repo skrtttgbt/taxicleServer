@@ -5,7 +5,7 @@ import mysql2 from 'mysql2'
 
 const app = express ()
 app.use(cors({
-    origin: ['https://taxicle-app.vercel.app','https://taxicle-admin.vercel.app', 'http://localhost:3000'] , // Specify the allowed origin (your frontend app)
+    origin: ['https://taxicle-app.vercel.app','https://taxicle-admin.vercel.app', 'http://localhost:3001'] , // Specify the allowed origin (your frontend app)
     methods: ["POST", "GET"],
     credentials: true, 
     optionsSuccessStatus: 204,
@@ -78,22 +78,17 @@ app.get('/admin-user',(req, res)=> {
 
 app.post('/admin-login',(req, res)=> {
     const sql ="SELECT * From admin WHERE (`adminUser` = ? AND `adminPassword` = ?) OR (`adminEmail` = ? AND `adminPassword` = ?)";
-    console.log('titi')
     db.query(sql,[req.body.admin, req.body.password, req.body.admin, req.body.password], (err, data) => {
         if(err) {
             return res.json({message:"error"})
         }
         if(data.length > 0 ){
-            console.log('Login')
             req.session.admin = data[0].adminEmail;
-            console.log({Login:true, user: req.session.admin})
-            console.log(req.session.admin)
             return res.json({Login:true, user: req.session.admin});
         }else{
             const sqlCheckEmail ="SELECT * From admin WHERE `adminUser` = ? OR `adminEmail` = ?";
             db.query(sqlCheckEmail,[req.body.admin, req.body.admin ], (err, data) => {
                 if(err) {
-                    console.log('error')
                     return res.json({message:"error"})
                 }
                 if(data.length > 0 ){
