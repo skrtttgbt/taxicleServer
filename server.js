@@ -85,6 +85,7 @@ app.get('/admin-user',(req, res)=> {
  })
 
  app.post('/admin-case', (req, res) => {
+    console.log(req.body.Email, req.body.travelID)
     const sql = "UPDATE report SET CaseEnded = 1 WHERE Email = ? AND TravelID = ?";
     db.query(sql, [req.body.Email, req.body.travelID], (err, data) => {
       if (err) {
