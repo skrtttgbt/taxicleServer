@@ -84,14 +84,17 @@ app.get('/admin-user',(req, res)=> {
      })
  })
 
- app.post('/admin-case',(req, res)=> {
-    const sql = "UPDATE report set CaseEnded = 1 WHERE Email = ? AND TravelID = ?";
-    console.log(req.body.Email, req.body.travelID)
-    db.query(sql,[req.body.Email, req.body.travelID],(err,data) =>{
-     if(err)  return res.json("error")
-         return res.json({message: 'success'})
-     })
- })
+ app.post('/admin-case', (req, res) => {
+    const sql = "UPDATE report SET CaseEnded = 1 WHERE Email = ? AND TravelID = ?";
+  
+    db.query(sql, [req.body.Email, req.body.travelID], (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.json({ message: 'error' });
+      }
+      return res.json({ message: 'success' });
+    });
+  });
 
  
  app.post('/admin-approve',(req, res)=> {
