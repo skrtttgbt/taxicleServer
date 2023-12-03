@@ -5,7 +5,7 @@ import mysql2 from 'mysql2'
 
 const app = express ()
 app.use(cors({
-    origin: ['https://taxicle-app.vercel.app','https://taxicle-admin.vercel.app', 'http://localhost:3001'] , // Specify the allowed origin (your frontend app)
+    origin: ['https://taxicle-app.vercel.app','https://taxicle-admin.vercel.app', 'http://localhost:3000'] , // Specify the allowed origin (your frontend app)
     methods: ["POST", "GET"],
     credentials: true, 
     optionsSuccessStatus: 204,
