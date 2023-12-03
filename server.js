@@ -85,9 +85,12 @@ app.get('/admin-user',(req, res)=> {
  })
 
  app.post('/admin-case', (req, res) => {
-    console.log(req.body.Email, req.body.travelID)
+    console.log(req.body); // Check if the body is being parsed correctly
+  
+    const { Email, travelID } = req.body;
     const sql = "UPDATE report SET CaseEnded = 1 WHERE Email = ? AND TravelID = ?";
-    db.query(sql, [req.body.Email, req.body.travelID], (err, data) => {
+    
+    db.query(sql, [Email, travelID], (err, data) => {
       if (err) {
         console.error(err);
         return res.json({ message: 'error' });
