@@ -76,6 +76,14 @@ app.get('/admin-user',(req, res)=> {
     })
  })
 
+ app.get('/admin-report',(req, res)=> {
+    const sql = "Select * from report";
+    db.query(sql,(err,data) =>{
+     if(err)  return res.json("error")
+         return res.json({report: data})
+     })
+ })
+
 app.post('/admin-login',(req, res)=> {
     const sql ="SELECT * From admin WHERE (`adminUser` = ? AND `adminPassword` = ?) OR (`adminEmail` = ? AND `adminPassword` = ?)";
     db.query(sql,[req.body.admin, req.body.password, req.body.admin, req.body.password], (err, data) => {
