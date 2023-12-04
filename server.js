@@ -207,7 +207,7 @@ app.post('/travel', (req, res) =>{
 app.post('/report', (req, res) =>{
     const checksql ="Select * from report where TravelID = ?";
     db.query(checksql,[req.body.travelID], (err, checkdata) => {
-        console.log(data.length)
+        console.log(checkdata.length)
         if(err) {
             return res.json(err)
         }if(checkdata.length < 1){
