@@ -209,7 +209,7 @@ app.post('/report', (req, res) =>{
     db.query(checksql,[req.body.travelID], (err, data) => {
         if(err) {
             return res.json(err)
-        }if(data.length == 0){
+        }if(data.length < 1){
     const values = [
         req.body.bodyNumber,
         req.session.user,
