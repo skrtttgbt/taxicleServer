@@ -207,7 +207,6 @@ app.post('/travel', (req, res) =>{
 app.post('/report', (req, res) =>{
     const checksql ="Select * from report where TravelID = ?";
     db.query(checksql,[req.body.travelID], (err, checkdata) => {
-        console.log(checkdata.length)
         if(err) {
             return res.json(err)
         }if(checkdata.length < 1){
@@ -284,17 +283,27 @@ app.post('/login', (req, res) => {
     const sql ="SELECT * From users WHERE `Email` = ? AND `Password` = ?";
     db.query(sql,[req.body.email, req.body.password], (err, data) => {
         if(err) {
-            return res.json({message:"error"})
+            return res.json(err)
         }
         if(data.length > 0 ){
-            req.session.user = data[0].Email;
-            req.session.mobile = data[0].PhoneNumber
-            return res.json({Login:true, user: req.session.user});
+            const Verifiedsql ="SELECT * From users WHERE `Email` = ? AND `Password` = ? AND `Verified` = 1";
+            db.query(Verifiedsql,[req.body.email, req.body.password], (err, Verifieddata) => {
+                if(err) {
+                    return res.json(err)
+                }
+                if(data.length > 0 ){  
+                req.session.user = Verifieddata[0].Email;
+                req.session.mobile = Verifieddata[0].PhoneNumber
+                return res.json({Login:true, user: req.session.user});
+                }else{
+                    return res.json({message:"Your Account is Not Verified Yet"});
+                }
+        })
         }else{
             const sqlCheckEmail ="SELECT * From users WHERE `Email` = ?";
             db.query(sqlCheckEmail,[req.body.email], (err, data) => {
                 if(err) {
-                    return res.json({message:"error"})
+                    return res.json(err)
                 }
                 if(data.length > 0 ){
                     return res.json({message:"Your Email/Password is Incorrect!"});
