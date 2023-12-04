@@ -205,6 +205,11 @@ app.post('/travel', (req, res) =>{
 })
 
 app.post('/report', (req, res) =>{
+    const checksql ="Select * from report where TravelID = ?";
+    db.query(checksql,[req.body.travelID], (err, data) => {
+        if(err) {
+            return res.json(err)
+        }if(data.length == 0){
     const values = [
         req.body.bodyNumber,
         req.session.user,
@@ -213,15 +218,20 @@ app.post('/report', (req, res) =>{
         req.body.to,
         req.body.reportType,
         req.body.reportDetails,
-        req.body.IncidentDate
+        req.body.IncidentDate,
+        req.body.travelID
     ]  
-    const sql ="INSERT INTO report (`BodyNumber`,`Email`,`mobile`,`From`,`To`,`ReportType`,`Complain`,`IncidentDate`) VALUES (?)";
+    const sql ="INSERT INTO report (`BodyNumber`,`Email`,`mobile`,`From`,`To`,`ReportType`,`Complain`,`IncidentDate`, `TravelID`) VALUES (?)";
     db.query(sql,[values], (err, data) => {
         if(err) {
             return res.json(err)
         }
         return res.json({Status:"Success"});
     })
+}else{
+    return res.json({Status:"Failed"});
+}
+})
 })
 
     app.get('/history', (req, res) => {
