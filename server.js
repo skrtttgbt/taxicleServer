@@ -206,10 +206,11 @@ app.post('/travel', (req, res) =>{
 
 app.post('/report', (req, res) =>{
     const checksql ="Select * from report where TravelID = ?";
-    db.query(checksql,[req.body.travelID], (err, data) => {
+    db.query(checksql,[req.body.travelID], (err, checkdata) => {
+        console.log(data.length)
         if(err) {
             return res.json(err)
-        }if(data.length < 1){
+        }if(checkdata.length < 1){
     const values = [
         req.body.bodyNumber,
         req.session.user,
