@@ -292,8 +292,8 @@ app.post('/login', (req, res) => {
                     return res.json(err)
                 }
                 if(data.length > 0 ){  
-                req.session.user = Verifieddata[0].Email;
-                req.session.mobile = Verifieddata[0].PhoneNumber
+                req.session.user = data[0].Email;
+                req.session.mobile = data[0].PhoneNumber
                 return res.json({Login:true, user: req.session.user});
                 }else{
                     return res.json({message:"Your Account is Not Verified Yet"});
