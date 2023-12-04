@@ -291,7 +291,7 @@ app.post('/login', (req, res) => {
                 if(err) {
                     return res.json(err)
                 }
-                if(data.length > 0 ){  
+                if(Verifieddata.length > 0 ){  
                 req.session.user = data[0].Email;
                 req.session.mobile = data[0].PhoneNumber
                 return res.json({Login:true, user: req.session.user});
